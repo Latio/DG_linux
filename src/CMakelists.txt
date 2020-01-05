@@ -1,0 +1,35 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+PROJECT(MAIN)
+
+# Make Debug
+# set(CMAKE_VERBOSE_MAKEFILE ON)
+
+# Compile Settings
+SET(CMAKE_C_COMPILER "/usr/bin/gcc")
+SET(CMAKE_CXX_COMPILER "/usr/bin/g++")
+
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+SET(CMAKE_BUILD_TYPE "Debug")
+
+SET(CMAKE_C_FLAGS_DEBUG "$ENV{CFLAGS} -g -O3 -Wall")
+SET(CMAKE_C_FLAGS_RELEASE "$ENV{CFLAGS} -O3 -Wall")
+SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -g -O3 -Wall")
+SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
+
+ADD_DEFINITIONS(-DDEBUG)
+
+# Excute Settings
+SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/bin")
+
+AUX_SOURCE_DIRECTORY(src/ DIR_SRCS)
+
+ADD_EXECUTABLE(main ${DIR_SRCS})
+
+# Include & Link Settings
+INCLUDE_DIRECTORIES(include/ /opt/NetCDF/include/ /opt/OpenBLAS/include)
+
+LINK_DIRECTORIES(lib/ /opt/NetCDF/lib/ /opt/OpenBLAS/lib/)
+TARGET_LINK_LIBRARIES(main -lstdc++ -lpthread -lm libopenblas.a libnetcdf.a)
